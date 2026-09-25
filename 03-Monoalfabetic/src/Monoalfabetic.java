@@ -11,6 +11,7 @@ public class Monoalfabetic {
     public static void main(String[] args) {
         showCharArray(alfabetCharArray);
         showCharArray(alfabetXifrat);
+        //PRoxim pas xifrar i desxifrar
     }
 
     public static void showCharArray(char[] theArray){
@@ -25,8 +26,8 @@ public class Monoalfabetic {
         List<Character> llistaXifrada = new ArrayList<>();
         for(int i=0; i < theArray.length; i++){
             llistaXifrada.add(theArray[i]);
-        }
-
+         }
+ 
         Collections.shuffle(llistaXifrada);
 
         //Convertir un altre
@@ -34,6 +35,7 @@ public class Monoalfabetic {
         for (int i = 0; i < llistaXifrada.size(); i++) {
             alfabetXifrat[i] = llistaXifrada.get(i);
         }
+
         return alfabetXifrat;
     }
 }
