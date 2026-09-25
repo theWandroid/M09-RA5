@@ -1,14 +1,17 @@
 public class RotX {
 
-    //para poner texto en negrita
+    //per posar text en negreta
+    // [inicia comanda de control
+    // 1 comanda ANSI per activar negreta
     public static final String BOLD = "\u001B[1m"; 
-    //para resertear texto a normal
+    //per tornar a resetejar text a normal
+    // 0 comanda ANSI per resetejar
     public static final String RESET = "\u001B[0m";
     
     private static String alfabet = "aáàbcçdeéèfghiíìïjklmnñoóòpqrstuúùüvwxyz";
     private static char[] minuscules = alfabet.toCharArray();
     private static char[] majuscles =  alfabet.toUpperCase().toCharArray();
-    private static String [] provesXifrat = {"ABC", "XYZ", "Hola Mr. Calçot", "Perdó per tú què és"};
+    private static String [] provesXifrat = {"ABC", "XYZ", "Hola Mr. Calçot", "Perdó, per tu què és?"};
     private static String [] provesDesXifrat = {"IÏJ", "FGH", "Òwúi Ùá. Jiúkwb", "Zmálx zmá bç acñ nà"};
 
     private static int [] numRotacions = {0, 2, 4, 6};
@@ -40,7 +43,6 @@ public class RotX {
         String missatgeXifrat = "Úiüht, úiü wx ùxì ív?";
         System.out.println("Misstge xifrat:"+missatgeXifrat);
         forcaBrutaRotX(missatgeXifrat);
-
     }
 
     public static String transformaText(boolean sentit, String text, int rotacio) {
@@ -54,15 +56,15 @@ public class RotX {
             for (int i = 0; i < text.length(); i++) {
                 char lletra = text.charAt(i);
                 if (Character.isLetter(lletra)) {
-                    if (Character.isLowerCase(lletra)) {
+                    if (Character.isLowerCase(lletra)) 
                         newText.append(substitueix(buscaLletra(lletra, minuscules), minuscules, sentit, rotacio ));
-                    } else {
+                     else 
                         newText.append(substitueix(buscaLletra(lletra, majuscles), majuscles, sentit, rotacio));
-                    }
+                    
 
-                } else {
+                } else 
                     newText.append(lletra);
-                }
+                
             }
         }
         return newText.toString();
@@ -88,8 +90,10 @@ public class RotX {
                 counter++;
             }
                 if(found){
+                    //Quan troba la coincidencia posa la frase en negreta
             System.out.printf(BOLD+"(%d) ->",i);
             desXifratRotX(msg, i);
+            // Després d'escriure ho torna a posar normal
             System.out.println(" "+RESET);
             found = false;
                 }else{
@@ -106,11 +110,10 @@ public class RotX {
         int counter = 0;
 
         while (!found && counter < arrayLletres.length) {
-            if (laLletra == arrayLletres[counter]) {
+            if (laLletra == arrayLletres[counter]) 
                 found = true; 
-            }else {
+            else 
                 counter++;
-            }
         }
         return counter;
     }
@@ -121,23 +124,14 @@ public class RotX {
         if (inici < arrayLletres.length) {
 
             if (sentit) {
-                fi = inici + rotacio;
-                if (fi >= arrayLletres.length) {
-                    fi = fi % arrayLletres.length;
-                }
+                    fi = (inici + rotacio) % arrayLletres.length;
             } else {
                 fi = inici - rotacio;
-                if (fi < 0) {
+                if (fi < 0) 
                     fi = arrayLletres.length + fi;
-                }
             }
             novaLletra = arrayLletres[fi];
-
         }
         return novaLletra;
-
-    }
-
-
-    
+    }    
 }
