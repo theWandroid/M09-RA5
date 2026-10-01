@@ -12,6 +12,15 @@ public class Monoalfabetic {
     public static void main(String[] args) {
         showCharArray(alfabetCharArray);
         showCharArray(alfabetXifrat);
+        System.out.println("Xifratge:"); 
+        System.out.printf("%-25s  --> %s\n", "Test 01 àrbitre, coixí, Perímetre",xifraMonoAlfa("àrbitre, coixí, Perímetre")); 
+        System.out.printf("%-25s  --> %s\n", "Test 02 Taüll, DÍA, año", xifraMonoAlfa("Taüll, DÍA, año")); 
+        System.out.printf("%-25s  --> %s\n", "Test 03 Peça, Òrrius, Bòvila", xifraMonoAlfa("Peça, Òrrius, Bòvila"));
+
+        System.out.println("Desxifratge:"); 
+        System.out.printf("%-25s --> %s", "Àùjà 01 qéóéoàéù, emoaz, Xùézyùàéù \n", desxifrMonoAlfa("Àùjà 01 qéóéoàéù, emoaz, Xùézyùàéù")); 
+        System.out.printf("%-25s --> %s", "Àùjà 02 Àúbññ, ÌZÚ, útm \n", desxifrMonoAlfa("Àùjà 02 Àúbññ, ÌZÚ, útm")); 
+        System.out.printf("%-25s --> %s", "Àùjà 03 Xùwú, Ïééosj, Óïfoñú \n ", desxifrMonoAlfa("Àùjà 03 Xùwú, Ïééosj, Óïfoñú"));
         //PRoxim pas xifrar i desxifrar
     }
 
@@ -41,48 +50,60 @@ public class Monoalfabetic {
         return alfabetXifrat;
     }
 
-    private static int buscaLletra(char laLletra){
+    private static int buscaLletra(char laLletra, boolean sentit){
         boolean found = false;
         int count = 0;
-        while(!found && count < alfabetCharArray.length){
-            char theChar = alfabetCharArray[count];
+        char [] alfabet = sentit ? alfabetCharArray : alfabetXifrat;
+
+        while(!found && count < alfabet.length){
+            char theChar = alfabet[count];
             if(laLletra == theChar)
                 found = true;
             else
                 count++;
-
-
         }
-
-        return found? true: false;
+        return count;
 
 
     }
 
     private static String xifraMonoAlfa(String missatge){
+        return subtitueixText(missatge, true);
 
     }
 
     private static String desxifrMonoAlfa(String missatge){
+       return subtitueixText(missatge, false);
+    }
+
+    private static char substitueixChar( int numLletra, boolean sentit){
+        char theChar = '+';
+        if(sentit){
+            theChar =alfabetXifrat[numLletra];
+        }else{
+            theChar = alfabetCharArray[numLletra];
+        }
+return theChar;
 
     }
 
-    private static char substitueixChar( char laLletra){
-
-    }
-
-    private static String subtitueixText( String missatge){
+    private static String subtitueixText( String missatge, boolean sentit){
+        StringBuffer nouMissatge = new StringBuffer();
         for(int i=0; i < missatge.length(); i++ ){
             char theChar = alfabetCharArray[i];
             if(Character.isLetter(theChar)){
-                if(Character.isUpperCase(theChar)){
-                    buscaLletra(Character.toLowerCase(theChar));
-
-                }else
-                    buscaLletra(theChar);
-
+                if(Character.isLowerCase(theChar)){
+                int numLletra =  buscaLletra(Character.toUpperCase(theChar), sentit);
+                    if(numLletra != -1)
+                        nouMissatge.append(Character.toLowerCase(substitueixChar(numLletra, sentit)));
+                }else{
+                int numLletra =  buscaLletra(theChar, sentit);
+                    if(numLletra != -1)
+                        nouMissatge.append(substitueixChar(numLletra, sentit));
+                }
             }
 
         }
+        return nouMissatge.toString();
     }
 }
