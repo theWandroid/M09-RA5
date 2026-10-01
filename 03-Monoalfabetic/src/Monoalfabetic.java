@@ -13,14 +13,14 @@ public class Monoalfabetic {
         showCharArray(alfabetCharArray);
         showCharArray(alfabetXifrat);
         System.out.println("Xifratge:"); 
-        System.out.printf("%-25s  --> %s\n", "Test 01 àrbitre, coixí, Perímetre",xifraMonoAlfa("àrbitre, coixí, Perímetre")); 
-        System.out.printf("%-25s  --> %s\n", "Test 02 Taüll, DÍA, año", xifraMonoAlfa("Taüll, DÍA, año")); 
-        System.out.printf("%-25s  --> %s\n", "Test 03 Peça, Òrrius, Bòvila", xifraMonoAlfa("Peça, Òrrius, Bòvila"));
+        System.out.printf("%-35s  --> %s\n", "Test 01 àrbitre, coixí, Perímetre",xifraMonoAlfa("àrbitre, coixí, Perímetre")); 
+        System.out.printf("%-35s  --> %s\n", "Test 02 Taüll, DÍA, año", xifraMonoAlfa("Taüll, DÍA, año")); 
+        System.out.printf("%-35s  --> %s\n", "Test 03 Peça, Òrrius, Bòvila", xifraMonoAlfa("Peça, Òrrius, Bòvila"));
 
         System.out.println("Desxifratge:"); 
-        System.out.printf("%-25s --> %s", "Àùjà 01 qéóéoàéù, emoaz, Xùézyùàéù \n", desxifrMonoAlfa("Àùjà 01 qéóéoàéù, emoaz, Xùézyùàéù")); 
-        System.out.printf("%-25s --> %s", "Àùjà 02 Àúbññ, ÌZÚ, útm \n", desxifrMonoAlfa("Àùjà 02 Àúbññ, ÌZÚ, útm")); 
-        System.out.printf("%-25s --> %s", "Àùjà 03 Xùwú, Ïééosj, Óïfoñú \n ", desxifrMonoAlfa("Àùjà 03 Xùwú, Ïééosj, Óïfoñú"));
+        System.out.printf("%-35s  --> %s\n", "Àùjà 01 qéóéoàéù, emoaz, Xùézyùàéù", desxifrMonoAlfa("Àùjà 01 qéóéoàéù, emoaz, Xùézyùàéù")); 
+        System.out.printf("%-35s  --> %s\n", "Àùjà 02 Àúbññ, ÌZÚ, útm", desxifrMonoAlfa("Àùjà 02 Àúbññ, ÌZÚ, útm")); 
+        System.out.printf("%-35s  --> %s\n", "Àùjà 03 Xùwú, Ïééosj, Óïfoñú   ", desxifrMonoAlfa("Àùjà 03 Xùwú, Ïééosj, Óïfoñú"));
         //PRoxim pas xifrar i desxifrar
     }
 
@@ -54,6 +54,7 @@ public class Monoalfabetic {
         boolean found = false;
         int count = 0;
         char [] alfabet = sentit ? alfabetCharArray : alfabetXifrat;
+        //showCharArray(alfabet);
 
         while(!found && count < alfabet.length){
             char theChar = alfabet[count];
@@ -89,8 +90,9 @@ return theChar;
 
     private static String subtitueixText( String missatge, boolean sentit){
         StringBuffer nouMissatge = new StringBuffer();
+        char [] missatgeCharArray = missatge.toCharArray();
         for(int i=0; i < missatge.length(); i++ ){
-            char theChar = alfabetCharArray[i];
+            char theChar = missatgeCharArray[i];
             if(Character.isLetter(theChar)){
                 if(Character.isLowerCase(theChar)){
                 int numLletra =  buscaLletra(Character.toUpperCase(theChar), sentit);
@@ -101,6 +103,8 @@ return theChar;
                     if(numLletra != -1)
                         nouMissatge.append(substitueixChar(numLletra, sentit));
                 }
+            }else{
+                nouMissatge.append(theChar);
             }
 
         }
