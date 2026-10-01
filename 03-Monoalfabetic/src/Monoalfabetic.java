@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+//Tennir en compte temps d'execució i temps de compilació
 public class Monoalfabetic {
     public static final String alfabet = "AÁÀBCÇDEÉÈFGHIÍÌÏJKLMNÑOÓÒPQRSTUÚÙÜVWXYZ";
     public static final char [] alfabetCharArray = alfabet.toCharArray();
@@ -15,9 +16,10 @@ public class Monoalfabetic {
     }
 
     public static void showCharArray(char[] theArray){
+        StringBuffer text = new StringBuffer();
         for(int i=0; i < theArray.length; i++)
-            System.out.print(theArray[i]);
-        System.out.println();
+            text.append(theArray[i]);
+        System.out.println(text);
     }
 
     public static char[] getAlfabetXifrat(char[] theArray){
@@ -37,5 +39,50 @@ public class Monoalfabetic {
         }
 
         return alfabetXifrat;
+    }
+
+    private static int buscaLletra(char laLletra){
+        boolean found = false;
+        int count = 0;
+        while(!found && count < alfabetCharArray.length){
+            char theChar = alfabetCharArray[count];
+            if(laLletra == theChar)
+                found = true;
+            else
+                count++;
+
+
+        }
+
+        return found? true: false;
+
+
+    }
+
+    private static String xifraMonoAlfa(String missatge){
+
+    }
+
+    private static String desxifrMonoAlfa(String missatge){
+
+    }
+
+    private static char substitueixChar( char laLletra){
+
+    }
+
+    private static String subtitueixText( String missatge){
+        for(int i=0; i < missatge.length(); i++ ){
+            char theChar = alfabetCharArray[i];
+            if(Character.isLetter(theChar)){
+                if(Character.isUpperCase(theChar)){
+                    buscaLletra(Character.toLowerCase(theChar));
+
+                }else
+                    buscaLletra(theChar);
+
+            }
+
+        }
     }
 }
