@@ -79,7 +79,6 @@ public class Polialfabetic {
                 nouMissatge.append(esMinuscula ? Character.toLowerCase(lletraSubstituida) : lletraSubstituida);
             } else 
                 nouMissatge.append(theChar);
-            
         }
         return nouMissatge.toString();
     }
