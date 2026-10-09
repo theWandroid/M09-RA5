@@ -12,6 +12,7 @@ public class Polialfabetic {
     //private static char[] alfabetPermutat = new char[alfabetCharArray.length];
     private static List<Character> alfabetPermutat;
     private static Random randomNum;
+    
 
     public static void main(String[] args) {
 
