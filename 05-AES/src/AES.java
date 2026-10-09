@@ -20,39 +20,33 @@ public class AES {
 
     private static final String MY_KEY = "HelloWorld!";
 
-    public static void main(String[] args) {
+ public static void main(String[] args) {
+    String[] msgs = {
+        "Hello World!",
+        "Lorem ipsum dicet",
+        "Hola Andrés cómo está tu cuñado",
+        "Àgora ïlla Ôtto",
+        "Hola q ase?"
+    };
 
-        System.out.println("Let's start!");
-        /*
-        iv = generaIV();
-        System.out.println("Identicador IV: "+ iv.toString());
-        System.out.println("Contingut IV: "+ Arrays.toString(iv));
-        System.out.println("Mida"+iv.length);
+    for (int i = 0; i < msgs.length; i++) {
+        String msg = msgs[i];
 
-        try{
-            SecretKey clau = generaHash(MY_KEY);
-            
-        System.out.println("Clau"+Arrays.toString(clau.getEncoded()));
-        System.out.println("Mida clau "+clau.getEncoded().length);
-
-
-        }catch(Exception e){
-            System.out.println("Error generant la clau"+e.getMessage());
-
-        }
-         */
         try {
-            String msg = "Hola, això és una prova!";
-            byte[] resultat = xifraAES(msg, MY_KEY);
-            System.out.println("Missatge: " + msg);
-            System.out.println("IV + xifrat: " + Arrays.toString(resultat));
-            System.out.println("Mida total: " + resultat.length + " bytes");
+            byte[] bXifrats = xifraAES(msg, MY_KEY);
+            String desxifrat = desxifraAES(bXifrats, MY_KEY);
+
+            System.out.println("--------------------");
+            System.out.println("Msg: " + msg);
+            System.out.println("Enc: " + new String(bXifrats));
+            System.out.println("DEC: " + desxifrat);
+            System.out.println("Coincideixen: " + msg.equals(desxifrat));
 
         } catch (Exception e) {
-            System.out.println("Error xifrant el missatge: " + e.getMessage());
+            System.err.println("Error de xifrat: " + e.getMessage());
         }
-
     }
+}
 
     private static byte[] generaIV() {
         byte[] noutIV = new byte[MIDA_IV];
@@ -86,11 +80,33 @@ public class AES {
 
         return resultat;
     }
-    /*
-    public static String desxifraAES(){
 
+    private static byte[] extreureIv(byte[] dades) {
+        return Arrays.copyOfRange(dades, 0, MIDA_IV);
     }
-    
-     */
+
+    private static byte[] getBytesXifrats(byte[] dades) {
+        return Arrays.copyOfRange(dades, MIDA_IV, dades.length);
+    }
+
+    public static String desxifraAES(byte[] dades, String password)
+            throws Exception {
+
+        // Separar l'IV i el missatge xifrat
+        byte[] ivExtret = extreureIv(dades);
+        byte[] bytesXifrats = getBytesXifrats(dades);
+
+        // Preparar l'IV i la mateixa clau que hem utilitzat per xifrar
+        IvParameterSpec ivSpec = new IvParameterSpec(ivExtret);
+        SecretKeySpec clau = generaHash(password);
+
+        // Configurar el desxifrador
+        Cipher cipher = Cipher.getInstance(FORMAT_AES);
+        cipher.init(Cipher.DECRYPT_MODE, clau, ivSpec);
+
+        // Desxifrar i convertir els bytes en text
+        byte[] bytesDesxifrats = cipher.doFinal(bytesXifrats);
+        return new String(bytesDesxifrats, StandardCharsets.UTF_8);
+    }
 
 }
