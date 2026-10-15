@@ -1,3 +1,5 @@
+package iticbcn.xifratge;
+
 public class RotX {
 
     //per posar text en negreta
