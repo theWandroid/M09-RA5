@@ -17,41 +17,6 @@ public class XifradorAES implements Xifrador {
 
     private static final int MIDA_IV = 16;
 
-    //private static byte[] iv = new byte[MIDA_IV];
-
-    //private static final String MY_KEY = "HelloWorld!";
-/*
-
-
- public static void main(String[] args) {
-    String[] msgs = {
-        "Hello World!",
-        "Lorem ipsum dicet",
-        "Hola Andrés cómo está tu cuñado",
-        "Àgora ïlla Ôtto",
-        "Hola q ase?"
-    };
-
-    for (int i = 0; i < msgs.length; i++) {
-        String msg = msgs[i];
-
-        try {
-            byte[] bXifrats = xifraAES(msg, MY_KEY);
-            String desxifrat = desxifraAES(bXifrats, MY_KEY);
-
-            System.out.println("--------------------");
-            System.out.println("Msg: " + msg);
-            System.out.println("Enc: " + new String(bXifrats));
-            System.out.println("DEC: " + desxifrat);
-            System.out.println("Coincideixen: " + msg.equals(desxifrat));
-
-        } catch (Exception e) {
-            System.err.println("Error de xifrat: " + e.getMessage());
-        }
-    }
-}
-     */
-
     private byte[] generaIV() {
         byte[] noutIV = new byte[MIDA_IV];
         SecureRandom random = new SecureRandom();
@@ -66,7 +31,7 @@ public class XifradorAES implements Xifrador {
         return new SecretKeySpec(hash, ALGORISME_XIFRAT);
     }
 
-    public byte[] xifraAES(String msg, String password) throws Exception {
+    private byte[] xifraAES(String msg, String password) throws Exception {
         byte[] bytesMsg = msg.getBytes(StandardCharsets.UTF_8);
 
         byte[] noutIv = generaIV();
@@ -93,7 +58,7 @@ public class XifradorAES implements Xifrador {
         return Arrays.copyOfRange(dades, MIDA_IV, dades.length);
     }
 
-    public String desxifraAES(byte[] dades, String password)
+    private String desxifraAES(byte[] dades, String password)
             throws Exception {
 
         // Separar l'IV i el missatge xifrat
@@ -111,6 +76,34 @@ public class XifradorAES implements Xifrador {
         // Desxifrar i convertir els bytes en text
         byte[] bytesDesxifrats = cipher.doFinal(bytesXifrats);
         return new String(bytesDesxifrats, StandardCharsets.UTF_8);
+    }
+
+    @Override
+    public TextXifrat xifra(String msg, String clau)
+            throws ClauNoSuportada {
+        try {
+            byte[] resultat = xifraAES(msg, clau);
+            return new TextXifrat(resultat);
+
+        } catch (Exception e) {
+            System.err.println("Error de xifrat AES: " + e.getMessage());
+            System.exit(1);
+            return null;
+        }
+    }
+
+    @Override
+    public String desxifra(TextXifrat xifrat, String clau)
+            throws ClauNoSuportada {
+        try {
+            byte[] dades = xifrat.getBytes();
+            return desxifraAES(dades, clau);
+
+        } catch (Exception e) {
+            System.err.println("Error de desxifrat AES: " + e.getMessage());
+            System.exit(1);
+            return null;
+        }
     }
 
 }
